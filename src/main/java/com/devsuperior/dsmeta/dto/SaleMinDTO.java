@@ -16,6 +16,7 @@ public class SaleMinDTO {
 		this.date = date;
 	}
 	
+
 	public SaleMinDTO(Sale entity) {
 		id = entity.getId();
 		amount = entity.getAmount();

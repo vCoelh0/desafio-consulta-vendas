@@ -26,7 +26,7 @@ public class Seller {
 	
 	public Seller() {
 	}
-
+ 
 	public Seller(Long id, String name, String email, String phone) {
 		this.id = id;
 		this.name = name;
