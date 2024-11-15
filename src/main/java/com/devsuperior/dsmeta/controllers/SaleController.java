@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.devsuperior.dsmeta.dto.SaleMinDTO;
+import com.devsuperior.dsmeta.dto.SaleSummaryDTO;
+import com.devsuperior.dsmeta.projections.SaleProjection;
 import com.devsuperior.dsmeta.services.SaleService;
 
 @RestController
@@ -31,34 +33,39 @@ public class SaleController {
 
 	@GetMapping(value = "/report")
 	public ResponseEntity<Page<SaleMinDTO>> getReport(
-	        @RequestParam(name = "dataInicial", required = false) 
+	        @RequestParam(name = "minDate", required = false) 
 	        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
 	        
-	        @RequestParam(name = "dataFinal", required = false) 
+	        @RequestParam(name = "maxDate", required = false) 
 	        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal,
 	        
-	        @RequestParam(name = "name", defaultValue = "", required = false) String name,
+	        @RequestParam(name = "name", defaultValue = "") String name,
 	        Pageable pageable) {
 
 	    Page<SaleMinDTO> dto = service.getReport(dataInicial, dataFinal, name, pageable);
 	    return ResponseEntity.ok(dto);
 	}
 
-	//metodo feito para teste
-	@GetMapping(value = "/reports")
-	public ResponseEntity<Page<SaleMinDTO>> findAll(Pageable pageable) {
-	Page<SaleMinDTO> dto = service.findAll(pageable);
-	return ResponseEntity.ok(dto);
-	}
-	
-	
-	
-	
-	
 		
 	@GetMapping(value = "/summary")
-	public ResponseEntity<?> getSummary() {
-		// TODO
-		return null;
+	public ResponseEntity<Page<SaleSummaryDTO>> getSummary(
+			@RequestParam(name = "minDate", required = false) 
+	        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
+	        @RequestParam(name = "maxDate", required = false) 
+	        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal,
+	        Pageable pageable) {
+			
+		Page<SaleSummaryDTO> dto = service.getSummary(dataInicial, dataFinal, pageable);
+		
+		return ResponseEntity.ok(dto);
 	}
+	
+	
+	
+	//metodo feito para teste
+		@GetMapping(value = "/reports")
+		public ResponseEntity<Page<SaleMinDTO>> findAll(Pageable pageable) {
+		Page<SaleMinDTO> dto = service.findAll(pageable);
+		return ResponseEntity.ok(dto);
+		}
 }
